@@ -15,7 +15,7 @@ class Question(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, question_index: int=None, template_id: int=None, created_at: int=None, last_modify: str=None, description: str=None, type: str=None, options: List[Option]=None):  # noqa: E501
+    def __init__(self, id: int=None, question_index: int=None, template_id: int=None, created_at: str=None, last_modify: str=None, description: str=None, type: str=None, options: List[Option]=None):  # noqa: E501
         """Question - a model defined in Swagger
 
         :param id: The id of this Question.  # noqa: E501
@@ -25,7 +25,7 @@ class Question(Model):
         :param template_id: The template_id of this Question.  # noqa: E501
         :type template_id: int
         :param created_at: The created_at of this Question.  # noqa: E501
-        :type created_at: int
+        :type created_at: str
         :param last_modify: The last_modify of this Question.  # noqa: E501
         :type last_modify: str
         :param description: The description of this Question.  # noqa: E501
@@ -39,7 +39,7 @@ class Question(Model):
             'id': int,
             'question_index': int,
             'template_id': int,
-            'created_at': int,
+            'created_at': str,
             'last_modify': str,
             'description': str,
             'type': str,
@@ -140,22 +140,22 @@ class Question(Model):
         self._template_id = template_id
 
     @property
-    def created_at(self) -> int:
+    def created_at(self) -> str:
         """Gets the created_at of this Question.
 
 
         :return: The created_at of this Question.
-        :rtype: int
+        :rtype: str
         """
         return self._created_at
 
     @created_at.setter
-    def created_at(self, created_at: int):
+    def created_at(self, created_at: str):
         """Sets the created_at of this Question.
 
 
         :param created_at: The created_at of this Question.
-        :type created_at: int
+        :type created_at: str
         """
 
         self._created_at = created_at

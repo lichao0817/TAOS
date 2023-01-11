@@ -74,15 +74,23 @@ paths:
         schema:
           type: integer
       requestBody:
-        description: add a new questionaire template
+        description: Assign new forms to client with an arry of form IDs in the request
+          body
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/clientId_forms_body'
         required: true
       responses:
-        "501":
-          description: Not implemented
+        "200":
+          description: successful operation returns the assignment IDs created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                x-content-type: application/json
       x-openapi-router-controller: swagger_server.controllers.owners_controller
   /owners/{ownerId}/templates:
     get:
@@ -110,13 +118,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/FormTemplate'
                 x-content-type: application/json
+              example:
+              - description: This is a new tax form template description
+                id: 2
+                title: This is a new tax form template
         "400":
           description: Invalid ID supplied
       x-openapi-router-controller: swagger_server.controllers.owners_controller
     post:
       tags:
       - owners
-      summary: Add a form for owner
+      summary: Add a form for owner (accounting firm)
       operationId: add_form
       parameters:
       - name: ownerId
@@ -128,7 +140,7 @@ paths:
         schema:
           type: integer
       requestBody:
-        description: add a new questionaire template
+        description: Add a new form template of questions
         content:
           application/json:
             schema:
@@ -137,7 +149,7 @@ paths:
               ownerId: 1
               title: This is a new tax form template
               description: This is a new tax form template description
-              answers:
+              questions:
               - questionIndex: 1
                 description: This is the first question. And it is free text.
                 type: text
@@ -209,17 +221,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FormTemplate'
-        "400":
-          description: Invalid template ID supplied
-        "404":
-          description: The template is not found
       x-openapi-router-controller: swagger_server.controllers.owners_controller
   /clients/{clientId}/forms:
     get:
       tags:
       - clients
       summary: Find all forms assignments for a client
-      description: Returns form assignments for a client
+      description: Returns form assignments for a client. A form assignment has the
+        formId that is assigned to the client and status (open or complete).
       operationId: get_all_forms_for_client
       parameters:
       - name: clientId
@@ -231,8 +240,15 @@ paths:
         schema:
           type: integer
       responses:
-        "501":
-          description: Not implemented
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FormAssignment'
+                x-content-type: application/json
       x-openapi-router-controller: swagger_server.controllers.clients_controller
   /clients/{clientId}/forms/{formId}:
     get:
@@ -259,13 +275,17 @@ paths:
         schema:
           type: integer
       responses:
-        "501":
-          description: Not implemented
+        "200":
+          description: Return the form response that completed by the client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormResponse'
       x-openapi-router-controller: swagger_server.controllers.clients_controller
     post:
       tags:
       - clients
-      summary: Modify the form with the formId
+      summary: Complete the form with formId
       operationId: complete_form_for_client
       parameters:
       - name: clientId
@@ -276,7 +296,6 @@ paths:
         explode: false
         schema:
           type: integer
-          format: int64
       - name: formId
         in: path
         description: ID of form to return
@@ -285,9 +304,27 @@ paths:
         explode: false
         schema:
           type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormResponse'
+            example:
+              answers:
+              - type: text
+                response: This is a free text answer
+              - type: single
+                response: A
+              - type: multiple
+                response: "A,B,C"
       responses:
-        "405":
-          description: Invalid input
+        "200":
+          description: successful operation returns the created form response ID
+          content:
+            application/json:
+              schema:
+                type: integer
+                x-content-type: application/json
       x-openapi-router-controller: swagger_server.controllers.clients_controller
 components:
   schemas:
@@ -301,11 +338,9 @@ components:
           type: integer
           format: int32
         createdAt:
-          type: integer
-          format: int64
+          type: string
         lastModify:
-          type: integer
-          format: int64
+          type: string
         title:
           type: string
         description:
@@ -315,48 +350,48 @@ components:
           items:
             $ref: '#/components/schemas/Question'
       example:
-        createdAt: 1
-        lastModify: 5
+        createdAt: createdAt
+        lastModify: lastModify
         questions:
-        - questionIndex: 2
-          createdAt: 9
+        - questionIndex: 5
+          createdAt: createdAt
           lastModify: lastModify
           options:
-          - createdAt: 4
-            questionId: 2
+          - createdAt: createdAt
+            questionId: 7
             optionIndex: optionIndex
             lastModify: lastModify
             description: description
-            id: 3
-          - createdAt: 4
-            questionId: 2
+            id: 2
+          - createdAt: createdAt
+            questionId: 7
             optionIndex: optionIndex
             lastModify: lastModify
             description: description
-            id: 3
+            id: 2
           description: description
-          id: 5
-          templateId: 7
+          id: 1
+          templateId: 5
           type: text
-        - questionIndex: 2
-          createdAt: 9
+        - questionIndex: 5
+          createdAt: createdAt
           lastModify: lastModify
           options:
-          - createdAt: 4
-            questionId: 2
+          - createdAt: createdAt
+            questionId: 7
             optionIndex: optionIndex
             lastModify: lastModify
             description: description
-            id: 3
-          - createdAt: 4
-            questionId: 2
+            id: 2
+          - createdAt: createdAt
+            questionId: 7
             optionIndex: optionIndex
             lastModify: lastModify
             description: description
-            id: 3
+            id: 2
           description: description
-          id: 5
-          templateId: 7
+          id: 1
+          templateId: 5
           type: text
         description: description
         id: 0
@@ -379,6 +414,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Answer'
+      example:
+        createdAt: createdAt
+        clientId: 6
+        lastModify: lastModify
+        answers:
+        - createdAt: createdAt
+          questionId: 5
+          clientId: 7
+          lastModify: lastModify
+          response: response
+          id: 5
+          templateId: 9
+          type: text
+          responseId: 2
+        - createdAt: createdAt
+          questionId: 5
+          clientId: 7
+          lastModify: lastModify
+          response: response
+          id: 5
+          templateId: 9
+          type: text
+          responseId: 2
+        id: 0
+        templateId: 1
     Question:
       type: object
       properties:
@@ -389,7 +449,7 @@ components:
         templateId:
           type: integer
         createdAt:
-          type: integer
+          type: string
         lastModify:
           type: string
         description:
@@ -406,25 +466,25 @@ components:
           items:
             $ref: '#/components/schemas/Option'
       example:
-        questionIndex: 2
-        createdAt: 9
+        questionIndex: 5
+        createdAt: createdAt
         lastModify: lastModify
         options:
-        - createdAt: 4
-          questionId: 2
+        - createdAt: createdAt
+          questionId: 7
           optionIndex: optionIndex
           lastModify: lastModify
           description: description
-          id: 3
-        - createdAt: 4
-          questionId: 2
+          id: 2
+        - createdAt: createdAt
+          questionId: 7
           optionIndex: optionIndex
           lastModify: lastModify
           description: description
-          id: 3
+          id: 2
         description: description
-        id: 5
-        templateId: 7
+        id: 1
+        templateId: 5
         type: text
     Option:
       type: object
@@ -436,18 +496,18 @@ components:
         questionId:
           type: integer
         createdAt:
-          type: integer
+          type: string
         lastModify:
           type: string
         description:
           type: string
       example:
-        createdAt: 4
-        questionId: 2
+        createdAt: createdAt
+        questionId: 7
         optionIndex: optionIndex
         lastModify: lastModify
         description: description
-        id: 3
+        id: 2
     Answer:
       type: object
       properties:
@@ -475,6 +535,16 @@ components:
         response:
           type: string
           description: The response will be used for all types of questions.
+      example:
+        createdAt: createdAt
+        questionId: 5
+        clientId: 7
+        lastModify: lastModify
+        response: response
+        id: 5
+        templateId: 9
+        type: text
+        responseId: 2
     FormAssignment:
       type: object
       properties:

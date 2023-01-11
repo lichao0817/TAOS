@@ -5,6 +5,8 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from swagger_server.models.form_assignment import FormAssignment  # noqa: E501
+from swagger_server.models.form_response import FormResponse  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -14,11 +16,14 @@ class TestClientsController(BaseTestCase):
     def test_complete_form_for_client(self):
         """Test case for complete_form_for_client
 
-        Modify the form with the formId
+        Complete the form with formId
         """
+        body = FormResponse()
         response = self.client.open(
-            '/lichao0817/TAOS/1.0.0/clients/{clientId}/forms/{formId}'.format(client_id=789, form_id=56),
-            method='POST')
+            '/lichao0817/TAOS/1.0.0/clients/{clientId}/forms/{formId}'.format(client_id=56, form_id=56),
+            method='POST',
+            data=json.dumps(body),
+            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

@@ -14,7 +14,7 @@ class Option(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, option_index: str=None, question_id: int=None, created_at: int=None, last_modify: str=None, description: str=None):  # noqa: E501
+    def __init__(self, id: int=None, option_index: str=None, question_id: int=None, created_at: str=None, last_modify: str=None, description: str=None):  # noqa: E501
         """Option - a model defined in Swagger
 
         :param id: The id of this Option.  # noqa: E501
@@ -24,7 +24,7 @@ class Option(Model):
         :param question_id: The question_id of this Option.  # noqa: E501
         :type question_id: int
         :param created_at: The created_at of this Option.  # noqa: E501
-        :type created_at: int
+        :type created_at: str
         :param last_modify: The last_modify of this Option.  # noqa: E501
         :type last_modify: str
         :param description: The description of this Option.  # noqa: E501
@@ -34,7 +34,7 @@ class Option(Model):
             'id': int,
             'option_index': str,
             'question_id': int,
-            'created_at': int,
+            'created_at': str,
             'last_modify': str,
             'description': str
         }
@@ -129,22 +129,22 @@ class Option(Model):
         self._question_id = question_id
 
     @property
-    def created_at(self) -> int:
+    def created_at(self) -> str:
         """Gets the created_at of this Option.
 
 
         :return: The created_at of this Option.
-        :rtype: int
+        :rtype: str
         """
         return self._created_at
 
     @created_at.setter
-    def created_at(self, created_at: int):
+    def created_at(self, created_at: str):
         """Sets the created_at of this Option.
 
 
         :param created_at: The created_at of this Option.
-        :type created_at: int
+        :type created_at: str
         """
 
         self._created_at = created_at

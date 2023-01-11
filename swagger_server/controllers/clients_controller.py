@@ -24,6 +24,13 @@ def complete_form_for_client(client_id, form_id):
         body = FormResponse.from_dict(connexion.request.get_json())
         conn = util.get_db_connection()
         cur = conn.cursor()
+        # Check if there is already a response
+        cur.execute("SELECT * FROM form_responses WHERE client_id=? AND template_id=?",
+                (client_id, form_id))
+        earlier_response = cur.fetchone()
+    
+        if earlier_response is not None:
+            return "You already completed the form"
         # Fetch all questions from the template
         cur.execute("SELECT * FROM questions WHERE template_id=?", (form_id,))
         questions = [Question.from_dict(dict(question))
@@ -37,12 +44,11 @@ def complete_form_for_client(client_id, form_id):
 
         answers = body.answers
         questions.sort(key=getIndex)
-        answers.sort(key=getIndex)
         
-        if len(questions) != answers:
-            return "Not all questions have answers"
+        if len(questions) != len(answers):
+            return "Not all questions have answers questions: " + str(len(questions)) + " answers: " + str(len(answers))
         for (question, answer) in zip(questions, answers):
-            if question.type != answer.type or question.id != answer.question_id:
+            if question.type != answer.type:
                 return "The question and its answer doesn't match"
 
         cur.execute("INSERT INTO form_responses (client_id, template_id) VALUES (?, ?)",
@@ -50,13 +56,13 @@ def complete_form_for_client(client_id, form_id):
                     )
         cur.execute("select last_insert_rowid()")
         response_id = cur.fetchone()[0]
-        for answer in body.answers:
+        for (question, answer) in zip(questions, answers):
             cur.execute("INSERT INTO answers (question_id, response_id, template_id, type, response) VALUES (?, ?, ?, ?, ?)",
-                        (answer.question_id, response_id,
-                         answer.template_id, answer.type, answer.response)
+                        (question.id, response_id,
+                         form_id, answer.type, answer.response)
                         )
         cur.execute("UPDATE form_assignments SET status='complete' WHERE client_id=? AND template_id=?",
-                    ('complete', client_id, form_id))
+                    (client_id, form_id))
         conn.commit()
         return response_id
     return "Invalid request"
@@ -65,21 +71,25 @@ def complete_form_for_client(client_id, form_id):
 def find_form_response_for_client(client_id, form_id):
     """Find the form with formId for an owner
 
-    Returns a single form with the form ID for owner # noqa: E501
+    Returns a single form with the form ID for owner
 
     :param client_id: ID of owner to return
     :type client_id: int
     :param form_id: ID of form to return
     :type form_id: int
 
-    :rtype: None
+    :rtype: FormResponse
     """
     conn = util.get_db_connection()
     cur = conn.cursor()
     cur.execute("SELECT * FROM form_responses WHERE client_id=? AND template_id=?",
                 (client_id, form_id))
-    response = FormResponse.from_dict(dict(cur.fetchone))
-    return response
+    response = cur.fetchone()
+    
+    if response is None:
+        return "Cannot find the response"
+    
+    return FormResponse.from_dict(dict(response))
 
 
 def get_all_forms_for_client(client_id):

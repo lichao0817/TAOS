@@ -17,7 +17,7 @@ class TestOwnersController(BaseTestCase):
     def test_add_form(self):
         """Test case for add_form
 
-        Add a form for owner
+        Add a form for owner (accounting firm)
         """
         body = FormTemplate()
         response = self.client.open(

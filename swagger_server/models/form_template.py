@@ -15,7 +15,7 @@ class FormTemplate(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, owner_id: int=None, created_at: int=None, last_modify: int=None, title: str=None, description: str=None, questions: List[Question]=None):  # noqa: E501
+    def __init__(self, id: int=None, owner_id: int=None, created_at: str=None, last_modify: str=None, title: str=None, description: str=None, questions: List[Question]=None):  # noqa: E501
         """FormTemplate - a model defined in Swagger
 
         :param id: The id of this FormTemplate.  # noqa: E501
@@ -23,9 +23,9 @@ class FormTemplate(Model):
         :param owner_id: The owner_id of this FormTemplate.  # noqa: E501
         :type owner_id: int
         :param created_at: The created_at of this FormTemplate.  # noqa: E501
-        :type created_at: int
+        :type created_at: str
         :param last_modify: The last_modify of this FormTemplate.  # noqa: E501
-        :type last_modify: int
+        :type last_modify: str
         :param title: The title of this FormTemplate.  # noqa: E501
         :type title: str
         :param description: The description of this FormTemplate.  # noqa: E501
@@ -36,8 +36,8 @@ class FormTemplate(Model):
         self.swagger_types = {
             'id': int,
             'owner_id': int,
-            'created_at': int,
-            'last_modify': int,
+            'created_at': str,
+            'last_modify': str,
             'title': str,
             'description': str,
             'questions': List[Question]
@@ -114,43 +114,43 @@ class FormTemplate(Model):
         self._owner_id = owner_id
 
     @property
-    def created_at(self) -> int:
+    def created_at(self) -> str:
         """Gets the created_at of this FormTemplate.
 
 
         :return: The created_at of this FormTemplate.
-        :rtype: int
+        :rtype: str
         """
         return self._created_at
 
     @created_at.setter
-    def created_at(self, created_at: int):
+    def created_at(self, created_at: str):
         """Sets the created_at of this FormTemplate.
 
 
         :param created_at: The created_at of this FormTemplate.
-        :type created_at: int
+        :type created_at: str
         """
 
         self._created_at = created_at
 
     @property
-    def last_modify(self) -> int:
+    def last_modify(self) -> str:
         """Gets the last_modify of this FormTemplate.
 
 
         :return: The last_modify of this FormTemplate.
-        :rtype: int
+        :rtype: str
         """
         return self._last_modify
 
     @last_modify.setter
-    def last_modify(self, last_modify: int):
+    def last_modify(self, last_modify: str):
         """Sets the last_modify of this FormTemplate.
 
 
         :param last_modify: The last_modify of this FormTemplate.
-        :type last_modify: int
+        :type last_modify: str
         """
 
         self._last_modify = last_modify
