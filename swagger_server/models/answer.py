@@ -14,7 +14,7 @@ class Answer(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, question_id: int=None, client_id: int=None, template_id: int=None, created_at: str=None, last_modify: str=None, response: str=None):  # noqa: E501
+    def __init__(self, id: int=None, question_id: int=None, client_id: int=None, template_id: int=None, created_at: str=None, last_modify: str=None, type: str=None, response: str=None):  # noqa: E501
         """Answer - a model defined in Swagger
 
         :param id: The id of this Answer.  # noqa: E501
@@ -29,6 +29,8 @@ class Answer(Model):
         :type created_at: str
         :param last_modify: The last_modify of this Answer.  # noqa: E501
         :type last_modify: str
+        :param type: The type of this Answer.  # noqa: E501
+        :type type: str
         :param response: The response of this Answer.  # noqa: E501
         :type response: str
         """
@@ -39,6 +41,7 @@ class Answer(Model):
             'template_id': int,
             'created_at': str,
             'last_modify': str,
+            'type': str,
             'response': str
         }
 
@@ -49,6 +52,7 @@ class Answer(Model):
             'template_id': 'templateId',
             'created_at': 'createdAt',
             'last_modify': 'lastModify',
+            'type': 'type',
             'response': 'response'
         }
         self._id = id
@@ -57,6 +61,7 @@ class Answer(Model):
         self._template_id = template_id
         self._created_at = created_at
         self._last_modify = last_modify
+        self._type = type
         self._response = response
 
     @classmethod
@@ -195,6 +200,35 @@ class Answer(Model):
         """
 
         self._last_modify = last_modify
+
+    @property
+    def type(self) -> str:
+        """Gets the type of this Answer.
+
+        the question type  # noqa: E501
+
+        :return: The type of this Answer.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type: str):
+        """Sets the type of this Answer.
+
+        the question type  # noqa: E501
+
+        :param type: The type of this Answer.
+        :type type: str
+        """
+        allowed_values = ["text", "single", "multiple"]  # noqa: E501
+        if type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `type` ({0}), must be one of {1}"
+                .format(type, allowed_values)
+            )
+
+        self._type = type
 
     @property
     def response(self) -> str:

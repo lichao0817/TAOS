@@ -132,36 +132,6 @@ paths:
         "404":
           description: The template is not found
       x-openapi-router-controller: swagger_server.controllers.owners_controller
-  /clients:
-    post:
-      tags:
-      - clients
-      summary: Add a new client
-      operationId: add_client
-      responses:
-        "501":
-          description: Not implemented
-      x-openapi-router-controller: swagger_server.controllers.clients_controller
-  /clients/{userId}:
-    get:
-      tags:
-      - clients
-      summary: Find client by userId
-      description: Returns a single pet
-      operationId: get_client_by_id
-      parameters:
-      - name: userId
-        in: path
-        description: ID of owner to return
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      responses:
-        "501":
-          description: Not implemented
-      x-openapi-router-controller: swagger_server.controllers.clients_controller
   /clients/{userId}/forms:
     get:
       tags:
@@ -266,30 +236,46 @@ components:
         createdAt: 1
         lastModify: 5
         questions:
-        - createdAt: 9
+        - questionIndex: 2
+          createdAt: 9
           lastModify: lastModify
           options:
-          - index: index
+          - createdAt: 4
+            questionId: 2
+            optionIndex: optionIndex
+            lastModify: lastModify
             description: description
-          - index: index
+            id: 3
+          - createdAt: 4
+            questionId: 2
+            optionIndex: optionIndex
+            lastModify: lastModify
             description: description
-          index: 2
+            id: 3
           description: description
           id: 5
           templateId: 7
-          type: freeText
-        - createdAt: 9
+          type: text
+        - questionIndex: 2
+          createdAt: 9
           lastModify: lastModify
           options:
-          - index: index
+          - createdAt: 4
+            questionId: 2
+            optionIndex: optionIndex
+            lastModify: lastModify
             description: description
-          - index: index
+            id: 3
+          - createdAt: 4
+            questionId: 2
+            optionIndex: optionIndex
+            lastModify: lastModify
             description: description
-          index: 2
+            id: 3
           description: description
           id: 5
           templateId: 7
-          type: freeText
+          type: text
         description: description
         id: 0
         ownerId: 6
@@ -316,7 +302,7 @@ components:
       properties:
         id:
           type: integer
-        index:
+        questionIndex:
           type: integer
         templateId:
           type: integer
@@ -330,26 +316,56 @@ components:
           type: string
           description: the question type
           enum:
-          - freeText
+          - text
           - single
           - multiple
         options:
           type: array
           items:
-            $ref: '#/components/schemas/Question_options'
+            $ref: '#/components/schemas/Option'
       example:
+        questionIndex: 2
         createdAt: 9
         lastModify: lastModify
         options:
-        - index: index
+        - createdAt: 4
+          questionId: 2
+          optionIndex: optionIndex
+          lastModify: lastModify
           description: description
-        - index: index
+          id: 3
+        - createdAt: 4
+          questionId: 2
+          optionIndex: optionIndex
+          lastModify: lastModify
           description: description
-        index: 2
+          id: 3
         description: description
         id: 5
         templateId: 7
-        type: freeText
+        type: text
+    Option:
+      type: object
+      properties:
+        id:
+          type: integer
+        optionIndex:
+          type: string
+        questionId:
+          type: integer
+        createdAt:
+          type: integer
+        lastModify:
+          type: string
+        description:
+          type: string
+      example:
+        createdAt: 4
+        questionId: 2
+        optionIndex: optionIndex
+        lastModify: lastModify
+        description: description
+        id: 3
     Answer:
       type: object
       properties:
@@ -365,17 +381,14 @@ components:
           type: string
         lastModify:
           type: string
+        type:
+          type: string
+          description: the question type
+          enum:
+          - text
+          - single
+          - multiple
         response:
           type: string
           description: The response will be used for all types of questions.
-    Question_options:
-      type: object
-      properties:
-        index:
-          type: string
-        description:
-          type: string
-      example:
-        index: index
-        description: description
 

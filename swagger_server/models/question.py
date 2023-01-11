@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.question_options import QuestionOptions  # noqa: F401,E501
+from swagger_server.models.option import Option  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -15,13 +15,13 @@ class Question(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, index: int=None, template_id: int=None, created_at: int=None, last_modify: str=None, description: str=None, type: str=None, options: List[QuestionOptions]=None):  # noqa: E501
+    def __init__(self, id: int=None, question_index: int=None, template_id: int=None, created_at: int=None, last_modify: str=None, description: str=None, type: str=None, options: List[Option]=None):  # noqa: E501
         """Question - a model defined in Swagger
 
         :param id: The id of this Question.  # noqa: E501
         :type id: int
-        :param index: The index of this Question.  # noqa: E501
-        :type index: int
+        :param question_index: The question_index of this Question.  # noqa: E501
+        :type question_index: int
         :param template_id: The template_id of this Question.  # noqa: E501
         :type template_id: int
         :param created_at: The created_at of this Question.  # noqa: E501
@@ -33,22 +33,22 @@ class Question(Model):
         :param type: The type of this Question.  # noqa: E501
         :type type: str
         :param options: The options of this Question.  # noqa: E501
-        :type options: List[QuestionOptions]
+        :type options: List[Option]
         """
         self.swagger_types = {
             'id': int,
-            'index': int,
+            'question_index': int,
             'template_id': int,
             'created_at': int,
             'last_modify': str,
             'description': str,
             'type': str,
-            'options': List[QuestionOptions]
+            'options': List[Option]
         }
 
         self.attribute_map = {
             'id': 'id',
-            'index': 'index',
+            'question_index': 'questionIndex',
             'template_id': 'templateId',
             'created_at': 'createdAt',
             'last_modify': 'lastModify',
@@ -57,7 +57,7 @@ class Question(Model):
             'options': 'options'
         }
         self._id = id
-        self._index = index
+        self._question_index = question_index
         self._template_id = template_id
         self._created_at = created_at
         self._last_modify = last_modify
@@ -98,25 +98,25 @@ class Question(Model):
         self._id = id
 
     @property
-    def index(self) -> int:
-        """Gets the index of this Question.
+    def question_index(self) -> int:
+        """Gets the question_index of this Question.
 
 
-        :return: The index of this Question.
+        :return: The question_index of this Question.
         :rtype: int
         """
-        return self._index
+        return self._question_index
 
-    @index.setter
-    def index(self, index: int):
-        """Sets the index of this Question.
+    @question_index.setter
+    def question_index(self, question_index: int):
+        """Sets the question_index of this Question.
 
 
-        :param index: The index of this Question.
-        :type index: int
+        :param question_index: The question_index of this Question.
+        :type question_index: int
         """
 
-        self._index = index
+        self._question_index = question_index
 
     @property
     def template_id(self) -> int:
@@ -222,7 +222,7 @@ class Question(Model):
         :param type: The type of this Question.
         :type type: str
         """
-        allowed_values = ["freeText", "single", "multiple"]  # noqa: E501
+        allowed_values = ["text", "single", "multiple"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
@@ -232,22 +232,22 @@ class Question(Model):
         self._type = type
 
     @property
-    def options(self) -> List[QuestionOptions]:
+    def options(self) -> List[Option]:
         """Gets the options of this Question.
 
 
         :return: The options of this Question.
-        :rtype: List[QuestionOptions]
+        :rtype: List[Option]
         """
         return self._options
 
     @options.setter
-    def options(self, options: List[QuestionOptions]):
+    def options(self, options: List[Option]):
         """Sets the options of this Question.
 
 
         :param options: The options of this Question.
-        :type options: List[QuestionOptions]
+        :type options: List[Option]
         """
 
         self._options = options

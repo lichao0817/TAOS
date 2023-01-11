@@ -11,17 +11,6 @@ from swagger_server.test import BaseTestCase
 class TestClientsController(BaseTestCase):
     """ClientsController integration test stubs"""
 
-    def test_add_client(self):
-        """Test case for add_client
-
-        Add a new client
-        """
-        response = self.client.open(
-            '/lichao0817/TAOS/1.0.0/clients',
-            method='POST')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
     def test_complete_form_for_client(self):
         """Test case for complete_form_for_client
 
@@ -51,17 +40,6 @@ class TestClientsController(BaseTestCase):
         """
         response = self.client.open(
             '/lichao0817/TAOS/1.0.0/clients/{userId}/forms'.format(user_id=56),
-            method='GET')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_get_client_by_id(self):
-        """Test case for get_client_by_id
-
-        Find client by userId
-        """
-        response = self.client.open(
-            '/lichao0817/TAOS/1.0.0/clients/{userId}'.format(user_id=56),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

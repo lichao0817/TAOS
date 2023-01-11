@@ -26,17 +26,6 @@ class TestOwnersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_add_owner(self):
-        """Test case for add_owner
-
-        Add a new owner
-        """
-        response = self.client.open(
-            '/lichao0817/TAOS/1.0.0/owners',
-            method='POST')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
     def test_find_all_clients_for_owner(self):
         """Test case for find_all_clients_for_owner
 
@@ -66,17 +55,6 @@ class TestOwnersController(BaseTestCase):
         """
         response = self.client.open(
             '/lichao0817/TAOS/1.0.0/owners/{userId}/templates/{templateId}'.format(user_id=56, template_id=56),
-            method='GET')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_get_owner_by_id(self):
-        """Test case for get_owner_by_id
-
-        Find owner by ID
-        """
-        response = self.client.open(
-            '/lichao0817/TAOS/1.0.0/owners/{userId}'.format(user_id=56),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

@@ -6,5 +6,5 @@ from __future__ import absolute_import
 from swagger_server.models.answer import Answer
 from swagger_server.models.form_response import FormResponse
 from swagger_server.models.form_template import FormTemplate
+from swagger_server.models.option import Option
 from swagger_server.models.question import Question
-from swagger_server.models.question_options import QuestionOptions
