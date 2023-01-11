@@ -1,6 +1,7 @@
 import datetime
 
 import six
+import sqlite3
 import typing
 from swagger_server import type_util
 
@@ -90,6 +91,10 @@ def deserialize_datetime(string):
     except ImportError:
         return string
 
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def deserialize_model(data, klass):
     """Deserializes list or dict to model.

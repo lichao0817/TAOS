@@ -31,6 +31,6 @@ setup(
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},
     long_description="""\
-    This is a sample TAOS server. 
+    Accounting firms need to collect detailed information on a client’s tax situation to prepare return on the client’s behalf. They currently send PDFs (like a form) with their own questions to clients via email. Moreover, it requires clients printing out PDFs, writing answers using pen, scanning and sending them back. This approach is simple but yet insecure and requires a lot of repeated efforts. This doc proposes a design for digitalize this process and provide a simplified streamlined solution for both clients and the accounting firms. 
     """
 )

@@ -74,7 +74,8 @@ paths:
         schema:
           type: integer
       requestBody:
-        description: add a new questionaire template
+        description: Assign new forms to client with an arry of form IDs in the request
+          body
         content:
           application/json:
             schema:
@@ -116,7 +117,7 @@ paths:
     post:
       tags:
       - owners
-      summary: Add a form for owner
+      summary: Add a form for owner (accounting firm)
       operationId: add_form
       parameters:
       - name: ownerId
@@ -128,7 +129,7 @@ paths:
         schema:
           type: integer
       requestBody:
-        description: add a new questionaire template
+        description: Add a new form template of questions
         content:
           application/json:
             schema:
@@ -137,7 +138,7 @@ paths:
               ownerId: 1
               title: This is a new tax form template
               description: This is a new tax form template description
-              answers:
+              questions:
               - questionIndex: 1
                 description: This is the first question. And it is free text.
                 type: text
